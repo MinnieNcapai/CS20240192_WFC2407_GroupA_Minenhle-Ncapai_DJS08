@@ -3,27 +3,31 @@ import { useParams, Link, NavLink, Outlet } from "react-router-dom"
 import { getHostVans } from "../../api"
 
 export default function HostVanDetail() {
+    // State for storing the current van, loading state, and error state
     const [currentVan, setCurrentVan] = React.useState(null)
     const [loading, setLoading] = React.useState(false)
     const [error, setError] = React.useState(null)
+    // Get the 'id' parameter from the URL
     const { id } = useParams()
 
+     // Fetch van details when the component mounts or the id changes
     React.useEffect(() => {
         async function loadVans() {
             setLoading(true)
             try {
-                const data = await getHostVans(id)
-                setCurrentVan(data)
+                const data = await getHostVans(id) // Fetch the van data
+                setCurrentVan(data) // Set the fetched van data
             } catch (err) {
-                setError(err)
+                setError(err) // Set error if fetching fails
             } finally {
-                setLoading(false)
+                setLoading(false)  // Set loading to false once done
             }
         }
 
-        loadVans()
-    }, [id])
+        loadVans() // Call the loadVans function
+    }, [id]) // Dependency on 'id', so it runs when 'id' changes
 
+        // Show loading message while fetching data
     if (loading) {
         return <h1>Loading...</h1>
     }

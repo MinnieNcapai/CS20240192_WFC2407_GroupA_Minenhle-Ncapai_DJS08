@@ -3,22 +3,26 @@ import { Link, useParams, useLocation } from "react-router-dom"
 import { getVans } from "../../api"
 
 export default function VanDetail() {
+// State for storing the van details, loading, and error
     const [van, setVan] = React.useState(null)
     const [loading, setLoading] = React.useState(false)
     const [error, setError] = React.useState(null)
+ // Get the 'id' parameter from the URL
     const { id } = useParams()
+ // Get the location object (used for back button navigation)
     const location = useLocation()
 
+ // Fetch van details when the component mounts or 'id' changes
     React.useEffect(() => {
         async function loadVans() {
-            setLoading(true)
+            setLoading(true) // Set loading state to true
             try {
-                const data = await getVans(id)
-                setVan(data)
+                const data = await getVans(id) // Fetch van data using the id
+                setVan(data) // Set the fetched van data
             } catch (err) {
-                setError(err)
+                setError(err)  // Set error state if there is an issue fetching data
             } finally {
-                setLoading(false)
+                setLoading(false) // Set loading to false once done
             }
         }
         loadVans()

@@ -3,23 +3,27 @@ import { Link, useSearchParams } from "react-router-dom"
 import { getVans } from "../../api"
 
 export default function Vans() {
+// Manage query parameters for search
     const [searchParams, setSearchParams] = useSearchParams()
+// State for storing van data, loading state, and errors
     const [vans, setVans] = React.useState([])
     const [loading, setLoading] = React.useState(false)
     const [error, setError] = React.useState(null)
 
+ // Get the 'type' filter from the URL search parameters
     const typeFilter = searchParams.get("type")
 
+ // Fetch vans data when the component mounts
     React.useEffect(() => {
         async function loadVans() {
-            setLoading(true)
+            setLoading(true)  // Set loading state to true
             try {
-                const data = await getVans()
-                setVans(data)
+                const data = await getVans()  // Fetch vans data
+                setVans(data) // Store the fetched vans in state
             } catch (err) {
-                setError(err)
+                setError(err) // Set error state if fetching fails
             } finally {
-                setLoading(false)
+                setLoading(false)  // Set loading to false once done
             }
         }
 
